@@ -18,6 +18,7 @@ android {
         }
     }
 
+    // 只能放在Android闭包里面
     repositories {
         maven {
             url '../flutter_module/build/host/outputs/repo'
