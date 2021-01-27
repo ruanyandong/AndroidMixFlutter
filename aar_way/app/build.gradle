@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.ryd.androidmixflutter.aar"
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        ndk {
+            // Filter for architectures supported by Flutter.
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+        }
+    }
+
+    repositories {
+        maven {
+            url '../flutter_module/build/host/outputs/repo'
+        }
+        maven {
+            //在国内，需要使用镜像站点（如直接使用 https://[a mirror site]/download.flutter.io 代替 storage.googleapis.com）。storage.flutter-io.cn，参见 在中国网络环境下使用 Flutter 页面。
+            url 'https://storage.flutter-io.cn/download.flutter.io'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        // flutter需要
+        profile {
+            initWith debug
+        }
+
+    }
+    // flutter需要
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    // flutter需要
+    debugImplementation 'com.ryd.flutter_module:flutter_debug:1.0'
+    profileImplementation 'com.ryd.flutter_module:flutter_profile:1.0'
+    releaseImplementation 'com.ryd.flutter_module:flutter_release:1.0'
+
+}
